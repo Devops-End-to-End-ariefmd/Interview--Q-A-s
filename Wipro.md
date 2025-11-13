@@ -1,4 +1,4 @@
-🟦 1. What is your day-to-day activity?
+🟦 **1. What is your day-to-day activity?**
 
 My day-to-day responsibilities include:
 
@@ -16,7 +16,7 @@ Improving infrastructure using IaC tools such as Terraform/Bicep.
 
 Participating in daily stand-up meetings and coordinating with dev/testing teams.
 
-🟦 2. If a file is used by two customers and needs deployment in Kubernetes & On-Prem, how do you handle it?
+🟦 **2. If a file is used by two customers and needs deployment in Kubernetes & On-Prem, how do you handle it?**
 
 Approach:
 
@@ -47,7 +47,7 @@ Or use Ansible/Powershell to deploy the file.
 
 Result: Same file → deployed to both environments consistently.
 
-🟦 3. What is the issue with using large images in Dockerfile?
+🟦** 3. What is the issue with using large images in Dockerfile?**
 
 Problems:
 
@@ -71,7 +71,7 @@ Copy only required files
 
 Clear cache & temp files
 
-🟦 4. How to deploy an app to Kubernetes cluster (CD Pipeline)?
+🟦 **4. How to deploy an app to Kubernetes cluster (CD Pipeline)?**
 
 Deployment Flow:
 
@@ -106,7 +106,7 @@ Validate deployment:
 kubectl get pods
 kubectl logs
 
-🟦 5. If secret is stored in Key Vault and pod goes down, how do you troubleshoot?
+🟦 **5. If secret is stored in Key Vault and pod goes down, how do you troubleshoot?**
 
 Steps:
 
@@ -140,7 +140,7 @@ Check secret exists:
 
 az keyvault secret show --name <secret-name>
 
-🟦 6. How Azure Key Vault integrates with CI/CD?
+🟦 **6. How Azure Key Vault integrates with CI/CD?**
 ✔ Azure DevOps Pipeline
 - task: AzureKeyVault@2
   inputs:
@@ -158,7 +158,7 @@ Pod Identity
 
 Secrets are mounted directly into pods.
 
-🟦 7. What to do if an application is down?
+🟦 **7. What to do if an application is down?**
 Troubleshooting Steps:
 kubectl get pods
 kubectl describe pod <pod>
@@ -179,14 +179,14 @@ Liveness/Readiness probe failures
 
 Resource limits exceeded (OOMKilled)
 
-🟦 8. Scenario-Based Questions
-✔ a) Customer asks for update after service down for 2 weeks — what do you say?
+🟦 **8. Scenario-Based Questions**
+✔ **a) Customer asks for update after service down for 2 weeks — what do you say?**
 
 “We apologize for the inconvenience. The issue is already under high priority.
 Our team is actively working on the root cause and resolution.
 We will share an updated timeline and RCA shortly.”
 
-✔ b) How do you troubleshoot?
+✔** b) How do you troubleshoot?**
 
 Checklist:
 
@@ -206,7 +206,7 @@ Ingress/Service issues
 
 APM logs (Datadog/AppInsights)
 
-✔ c) How to avoid this in future?
+**✔ c) How to avoid this in future?**
 
 Add monitoring & alerting
 
@@ -220,7 +220,7 @@ Resource scaling (HPA)
 
 Use logging and distributed tracing
 
-🟦 9. Dockerfile Example
+🟦** 9. Dockerfile Example**
 FROM node:18-alpine
 
 WORKDIR /app
@@ -231,7 +231,7 @@ EXPOSE 3000
 
 CMD ["npm", "start"]
 
-🟦 10. Deployment YAML Example
+🟦 **10. Deployment YAML Example**
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -255,7 +255,7 @@ spec:
         ============================================================================
 
 
-  ✅ 1. In Git, explain the push and pull commands.
+  ✅** 1. In Git, explain the push and pull commands.**
 git push
 
 Sends your local commits → to the remote repository (GitHub, GitLab, Bitbucket).
@@ -275,11 +275,11 @@ Equivalent to:
 git fetch + git merge
 
 
-Example:
-
+**Example:**
+-------
 git pull origin main
-
-✅ 2. What is the use of Git tags?
+--------
+✅ **2. What is the use of Git tags?**
 
 Git tags are used to:
 
@@ -301,7 +301,7 @@ Versioning
 
 CI/CD deployments
 
-✅ 3. What are the different types of branches in Git?
+✅** 3. What are the different types of branches in Git?**
 
 Common branching structure:
 
@@ -335,7 +335,7 @@ Urgent critical fixes directly on production
 
 Pre-production testing and staging
 
-✅ 4. How do you write an Ansible playbook, and what client requirements do you consider?
+✅** 4. How do you write an Ansible playbook, and what client requirements do you consider?**
 Basic Playbook Example
 - name: Install Apache
   hosts: webservers
@@ -362,7 +362,7 @@ Environment (dev/test/prod)
 
 Security constraints (SSH keys, vault encryption)
 
-✅ 5. In Python, what are lists and tuples, and how do they differ?
+✅** 5. In Python, what are lists and tuples, and how do they differ?**
 ✔ List
 
 Mutable (can change)
@@ -391,7 +391,7 @@ Mutability	Mutable	Immutable
 Syntax	[]	()
 Speed	Slower	Faster
 Use-case	Dynamic data	Fixed data
-✅ 6. In CloudWatch, what is the use of log groups and log trails?
+✅ **6. In CloudWatch, what is the use of log groups and log trails?**
 ✔ Log Groups
 
 A collection of log streams.
@@ -418,7 +418,7 @@ Compliance
 
 Investigating unauthorized activity
 
-✅ 7. In Terraform, what is the purpose of init, plan, and apply commands?
+✅ **7. In Terraform, what is the purpose of init, plan, and apply commands?**
 terraform init
 
 Initializes working directory
@@ -437,7 +437,7 @@ Applies the changes
 
 Provisions real infrastructure
 
-✅ 8. What happens if the Terraform state file is accidentally deleted?
+✅** 8. What happens if the Terraform state file is accidentally deleted?**
 
 State file (terraform.tfstate) contains actual resource mappings.
 
@@ -465,7 +465,7 @@ Import resources manually
 
 terraform import aws_s3_bucket.mybucket mybucketname
 
-✅ 9. What is the purpose of creating S3 bucket policies?
+✅ **9. What is the purpose of creating S3 bucket policies?**
 
 Bucket policies are used to control access to the bucket.
 
@@ -490,7 +490,7 @@ Example:
   "Resource": "arn:aws:s3:::mybucket/*"
 }
 
-✅ 10. How do you maintain the lifecycle of an S3 bucket?
+✅ **10. How do you maintain the lifecycle of an S3 bucket?**
 
 Using Lifecycle Rules:
 
@@ -510,7 +510,7 @@ After 90 days → move to Glacier
 
 After 365 days → delete
 
-✅ 11. In Airflow, if a job fails, how do you debug it?
+✅ **11. In Airflow, if a job fails, how do you debug it?**
 Steps:
 
 Check task logs in UI
@@ -545,7 +545,7 @@ Restart scheduler
 
 Enable retries
 
-✅ 12. If you’re facing performance issues on a server, how do you troubleshoot?
+✅** 12. If you’re facing performance issues on a server, how do you troubleshoot?**
 Step-by-step diagnosis:
 ✔ CPU Issues:
 top
