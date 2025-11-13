@@ -251,3 +251,339 @@ spec:
         image: myrepo/myapp:v1
         ports:
         - containerPort: 3000
+
+        ============================================================================
+
+
+  ✅ 1. In Git, explain the push and pull commands.
+git push
+
+Sends your local commits → to the remote repository (GitHub, GitLab, Bitbucket).
+
+Updates the remote branch with your changes.
+
+Example:
+
+git push origin main
+
+git pull
+
+Fetches changes from the remote repository → merges them into your local branch.
+
+Equivalent to:
+
+git fetch + git merge
+
+
+Example:
+
+git pull origin main
+
+✅ 2. What is the use of Git tags?
+
+Git tags are used to:
+
+Mark important points in history (mostly releases)
+
+Identify versions (v1.0, v2.1, v3.5.1)
+
+Example:
+
+git tag v1.0
+git push origin v1.0
+
+
+Tags are commonly used for:
+
+Release management
+
+Versioning
+
+CI/CD deployments
+
+✅ 3. What are the different types of branches in Git?
+
+Common branching structure:
+
+✔ Main/Master Branch
+
+Production-ready code
+
+Always stable
+
+✔ Develop Branch
+
+Integrated development
+
+Next release preparation
+
+✔ Feature Branch
+
+Used for new features
+
+Merged after review
+
+✔ Bugfix Branch
+
+Used to fix defects
+
+✔ Hotfix Branch
+
+Urgent critical fixes directly on production
+
+✔ Release Branch
+
+Pre-production testing and staging
+
+✅ 4. How do you write an Ansible playbook, and what client requirements do you consider?
+Basic Playbook Example
+- name: Install Apache
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install Apache package
+      apt:
+        name: apache2
+        state: present
+
+Client requirements considered:
+
+OS type (Ubuntu, CentOS, Amazon Linux)
+
+User permissions (sudo privileges)
+
+Network connectivity
+
+Package manager (apt, yum)
+
+Application version requirement
+
+Environment (dev/test/prod)
+
+Security constraints (SSH keys, vault encryption)
+
+✅ 5. In Python, what are lists and tuples, and how do they differ?
+✔ List
+
+Mutable (can change)
+
+Defined using []
+
+Example:
+
+my_list = [1, 2, 3]
+my_list[0] = 10  # allowed
+
+✔ Tuple
+
+Immutable (cannot change)
+
+Defined using ()
+
+Example:
+
+my_tuple = (1, 2, 3)
+# my_tuple[0] = 10 → Not allowed
+
+Key Differences
+Feature	List	Tuple
+Mutability	Mutable	Immutable
+Syntax	[]	()
+Speed	Slower	Faster
+Use-case	Dynamic data	Fixed data
+✅ 6. In CloudWatch, what is the use of log groups and log trails?
+✔ Log Groups
+
+A collection of log streams.
+
+Example: /aws/lambda/app1, /ecs/service1.
+
+Organizes logs by application or service.
+
+✔ Log Streams
+
+Sequence of log events from a specific instance/container.
+
+✔ Log Trails (CloudTrail)
+
+Records API actions done in your AWS account.
+
+Tracks who did what and when (audit).
+
+Usage:
+
+Security auditing
+
+Compliance
+
+Investigating unauthorized activity
+
+✅ 7. In Terraform, what is the purpose of init, plan, and apply commands?
+terraform init
+
+Initializes working directory
+
+Downloads providers & modules
+
+terraform plan
+
+Shows what Terraform will create/update/destroy
+
+No changes applied yet
+
+terraform apply
+
+Applies the changes
+
+Provisions real infrastructure
+
+✅ 8. What happens if the Terraform state file is accidentally deleted?
+
+State file (terraform.tfstate) contains actual resource mappings.
+
+If deleted:
+
+✔ Issues:
+
+Terraform loses track of resources
+
+Cannot detect changes
+
+Might try to recreate all resources → downtime risk
+
+✔ Solutions:
+
+Restore from backup (best
+
+S3 remote backend
+
+Terraform Cloud
+
+Azure Storage
+
+Import resources manually
+
+terraform import aws_s3_bucket.mybucket mybucketname
+
+✅ 9. What is the purpose of creating S3 bucket policies?
+
+Bucket policies are used to control access to the bucket.
+
+Purpose:
+
+Allow/deny read/write access
+
+Restrict access to specific IAM users/roles
+
+Enforce encryption
+
+Enforce IP-based restrictions
+
+Allow cross-account access
+
+Example:
+
+{
+  "Effect": "Allow",
+  "Principal": "*",
+  "Action": "s3:GetObject",
+  "Resource": "arn:aws:s3:::mybucket/*"
+}
+
+✅ 10. How do you maintain the lifecycle of an S3 bucket?
+
+Using Lifecycle Rules:
+
+Transition objects to cheaper storage (STANDARD → IA → Glacier)
+
+Delete old objects automatically
+
+Delete incomplete multipart uploads
+
+Manage versions with expiration rules
+
+Example:
+
+After 30 days → move to IA
+
+After 90 days → move to Glacier
+
+After 365 days → delete
+
+✅ 11. In Airflow, if a job fails, how do you debug it?
+Steps:
+
+Check task logs in UI
+
+Check retry count and failure reason
+
+Validate DAG code (syntax errors)
+
+Check upstream/downstream dependencies
+
+Verify environment variables and connections
+
+Check worker or scheduler logs
+
+Check external system:
+
+Database
+
+API
+
+Storage
+
+Common fixes:
+
+Increase timeout
+
+Fix Python exception
+
+Fix missing credentials
+
+Restart scheduler
+
+Enable retries
+
+✅ 12. If you’re facing performance issues on a server, how do you troubleshoot?
+Step-by-step diagnosis:
+✔ CPU Issues:
+top
+htop
+
+✔ Memory Issues:
+free -m
+dmesg | grep OOM
+
+✔ Disk Issues:
+df -h
+iostat
+
+✔ Network Issues:
+ping
+traceroute
+netstat -tulpn
+
+✔ Logs:
+/var/log/syslog
+/var/log/messages
+
+✔ App-level checks:
+
+Slow code
+
+Database bottleneck
+
+Unoptimized queries
+
+✔ Fixes:
+
+Restart service
+
+Increase server size
+
+Add load balancer
+
+Enable caching
+
+Optimize DB      
