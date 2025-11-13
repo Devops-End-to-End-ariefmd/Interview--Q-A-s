@@ -1,26 +1,22 @@
-DevOps & Kubernetes Interview Preparation – Wipro
-
-This document contains real-time DevOps interview questions and answers based on Kubernetes, Docker, CI/CD, Azure DevOps, Key Vault, troubleshooting, and scenario-based questions.
-
 🟦 1. What is your day-to-day activity?
 
 My day-to-day responsibilities include:
 
 Monitoring CI/CD pipelines, application deployments, Kubernetes resources, cluster health, and logs.
 
-Working on deployment activities, writing YAML files, Dockerfiles, Helm charts, and fixing pipeline failures.
+Working on deployment-related tasks, writing YAML files, Dockerfiles, Helm charts, and fixing pipeline failures.
 
-Troubleshooting production and lower-environment issues (pods failing, image pull errors, secrets/config issues).
+Troubleshooting production & lower-environment issues (pods failing, image pull errors, secrets/config issues).
 
 Managing access, secrets, and identities using Azure Key Vault and Managed Identities.
 
-Automating workflows with scripts (Bash, PowerShell, Python).
+Automating workflows using Bash, PowerShell, or Python scripts.
 
-Improving infrastructure using IaC such as Terraform/Bicep.
+Improving infrastructure using IaC tools such as Terraform/Bicep.
 
-Participating in daily stand-ups and coordinating with development and testing teams.
+Participating in daily stand-up meetings and coordinating with dev/testing teams.
 
-🟦 2. If a file is used by two customers and needs deployment in Kubernetes and On-Prem, how to do it?
+🟦 2. If a file is used by two customers and needs deployment in Kubernetes & On-Prem, how do you handle it?
 
 Approach:
 
@@ -30,165 +26,93 @@ Store the file in a Git repository.
 
 ✔ For Kubernetes
 
-Create a ConfigMap or Secret depending on the file type.
+Create a ConfigMap or Secret (depending on sensitivity).
 
-Mount it inside the pod using a volume.
+Mount it in the pod as a volume.
 
 Deploy using:
 
-kubectl apply
+kubectl apply -f <file>
 
-or Helm chart
+or Helm chart values override
 
 ✔ For On-Prem
 
-Use CI/CD pipeline to copy the file using:
+Use CI/CD pipeline task to copy file:
 
-SCP/SSH
+scp file.txt user@onprem:/path
 
-Ansible
 
-PowerShell Remoting
+Or use Ansible/Powershell to deploy the file.
 
-Deploy the same version of the file to the on-prem server.
+Result: Same file → deployed to both environments consistently.
 
-Benefit:
-One file → version-controlled → deployed to multiple environments consistently.
+🟦 3. What is the issue with using large images in Dockerfile?
 
-🟦 3. What is the issue with using a large image in a Dockerfile?
+Problems:
 
-Problems with large Docker images:
-
-Slow build time
+Slow image build time
 
 Slow push/pull from registry
 
-High storage usage in registry
+Larger storage usage
 
-Slower pod startup time → increased deployment time
+Delayed Kubernetes pod startup
 
-More security vulnerabilities (large base image)
+Higher security vulnerability surface
 
-Cache invalidation happens more often
+💡 Solution:
 
-✔ Solution:
-
-Use alpine or minimal base image
+Use minimal base images (alpine, slim)
 
 Use multi-stage builds
 
-Remove temporary files
-
 Copy only required files
 
-🟦 4. How do you deploy an app to Kubernetes? (CD part only)
+Clear cache & temp files
 
-CI/CD deployment flow:
+🟦 4. How to deploy an app to Kubernetes cluster (CD Pipeline)?
 
-Developer commits code → Git repo
+Deployment Flow:
 
-CI builds the app:
+Developer pushes code → Git
+
+CI Pipeline:
+
+Install dependencies
 
 Run tests
 
 Build Docker image
 
-Push to ACR/ECR/GCR
+Push to registry (ACR/ECR/GCR)
 
-CD deploys to Kubernetes:
+CD Pipeline:
 
-Fetch latest image tag
+Update Deployment YAML / Helm values
 
-Update deployment manifest/Helm values
+Run:
 
-Apply changes using:
-
-kubectl apply
-
-helm upgrade --install
-
-or GitOps tools like ArgoCD
-
-Post-deployment steps:
-
-Check pod status
-
-Validate logs
-
-Verify service/ingress
-
-🟦 5. If secret is stored in vault and pod is down, how to troubleshoot?
-
-Steps to troubleshoot:
-
-Check pod errors
-
-kubectl describe pod <pod-name>
+kubectl apply -f deployment.yaml
 
 
-Check logs
+or
 
-kubectl logs <pod>
-
-
-Check vault access
-
-Managed Identity not assigned
-
-Wrong policies assigned in Key Vault
-
-Pod Identity not configured
-
-Check networking issues
-
-VNet / Firewall blocking
-
-DNS resolution failure
-
-Private endpoint misconfiguration
-
-Check if vault secret exists
-
-az keyvault secret show --name <secret>
-
-🟦 6. How is Azure Key Vault integrated in CI/CD?
-✔ In Azure DevOps pipeline:
-
-Use KeyVault task:
-
-- task: AzureKeyVault@2
-  inputs:
-    azureSubscription: 'service-connection'
-    keyVaultName: 'my-kv'
-    secretsFilter: '*'
+helm upgrade --install app chart/
 
 
-Pipeline uses secrets as environment variables.
+Validate deployment:
 
-✔ In Kubernetes:
+kubectl get pods
+kubectl logs
 
-Use:
-
-CSI Secrets Store Driver
-
-AAD Pod Identity / Workload Identity
-
-Managed Identity
-
-Secrets are injected into Kubernetes pods securely.
-
-🟦 7. What to do if an application is down?
+🟦 5. If secret is stored in Key Vault and pod goes down, how do you troubleshoot?
 
 Steps:
 
-Check pod status:
+Check pod error:
 
-kubectl get pods
-
-
-Describe pod:
-
-kubectl describe pod <name>
+kubectl describe pod <pod>
 
 
 Check logs:
@@ -196,85 +120,118 @@ Check logs:
 kubectl logs <pod>
 
 
-Common issues:
+Verify Key Vault access:
 
-ImagePullBackOff
+Managed Identity permission
+
+Access policy / RBAC
+
+Pod Identity (AAD Pod Identity / Workload Identity)
+
+Network:
+
+Firewall blocked
+
+Private Endpoint issue
+
+DNS issues
+
+Check secret exists:
+
+az keyvault secret show --name <secret-name>
+
+🟦 6. How Azure Key Vault integrates with CI/CD?
+✔ Azure DevOps Pipeline
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'service-connection'
+    keyVaultName: 'myvault'
+    secretsFilter: '*'
+
+✔ Kubernetes Integration
+
+CSI Secrets Store Driver
+
+Managed Identity
+
+Pod Identity
+
+Secrets are mounted directly into pods.
+
+🟦 7. What to do if an application is down?
+Troubleshooting Steps:
+kubectl get pods
+kubectl describe pod <pod>
+kubectl logs <pod>
+
+
+Common issues:
 
 CrashLoopBackOff
 
-ConfigMap/Secret not mounted
+ImagePullBackOff
 
-Liveness/Readiness probe failure
-
-Resource limits exceeded (OOMKilled)
+ConfigMap/Secret mount failure
 
 Node NotReady
 
-Check service/ingress connectivity.
+Liveness/Readiness probe failures
 
-🟦 8. Scenario-based Questions
-a) If service is down for more than 2 weeks and customer asks for an update — how would you respond?
+Resource limits exceeded (OOMKilled)
 
-Professional response:
+🟦 8. Scenario-Based Questions
+✔ a) Customer asks for update after service down for 2 weeks — what do you say?
 
-“We understand the impact and apologize for the inconvenience. The issue is already under high priority. Our engineering team is actively working on the root cause. We will share the RCA and the expected resolution timeline. Meanwhile, we are providing temporary workarounds to minimize business impact.”
+“We apologize for the inconvenience. The issue is already under high priority.
+Our team is actively working on the root cause and resolution.
+We will share an updated timeline and RCA shortly.”
 
-b) How do you troubleshoot the issue and what do you check?
+✔ b) How do you troubleshoot?
 
 Checklist:
 
-Logs (app/db)
+Pod logs
 
-Pod events
+Deployment/replica issues
 
-Node health
+Node status
 
-Deployment changes
-
-Registry image availability
+Image issues
 
 ConfigMaps & Secrets
 
-Resource usage
-
 Network policies
 
-Ingress/service issues
+Ingress/Service issues
 
-c) What steps to take so the issue does not happen again?
+APM logs (Datadog/AppInsights)
 
-Preventive steps:
+✔ c) How to avoid this in future?
 
-Add monitoring & alerts (Prometheus + Grafana)
+Add monitoring & alerting
 
-Add liveness/readiness probes
+Add liveness & readiness probes
 
-Use autoscaling (HPA)
+Improve CI/CD testing
 
 Implement canary/blue-green deployments
 
-Improve testing (unit, regression, load tests)
+Resource scaling (HPA)
 
-Enable centralized logging (ELK/EFK)
+Use logging and distributed tracing
 
-Add retry & fallback mechanisms
-
-🟦 9. Sample Dockerfile
+🟦 9. Dockerfile Example
 FROM node:18-alpine
 
 WORKDIR /app
-
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
-
 EXPOSE 3000
 
 CMD ["npm", "start"]
 
-🟦 10. Sample Deployment YAML
+🟦 10. Deployment YAML Example
 apiVersion: apps/v1
 kind: Deployment
 metadata:
